@@ -4,7 +4,7 @@ import zipfile
 from Customer_churn.logging import logger
 from Customer_churn.utils.common import get_size
 from pathlib import Path
-from Customer_churn.entity import DataIngestionConfig
+from Customer_churn.entity.config_entity import DataIngestionConfig
 
 
 class DataIngestion:

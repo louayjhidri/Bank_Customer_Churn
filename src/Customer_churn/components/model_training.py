@@ -8,20 +8,19 @@ import pandas as pd
 from dataclasses import dataclass
 
 from sklearn.metrics import r2_score
-from catboost import CatBoostRegressor
+from catboost import CatBoostClassifier
 from sklearn.ensemble import (
-    AdaBoostRegressor,
-    GradientBoostingRegressor,
-    RandomForestRegressor,
+    AdaBoostClassifier,
+    GradientBoostingClassifier,
+    RandomForestClassifier,
 )
-from sklearn.linear_model import LinearRegression
-from sklearn.neighbors import KNeighborsRegressor
-from sklearn.tree import DecisionTreeRegressor
-from xgboost import XGBRegressor
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.tree import DecisionTreeClassifier
+from xgboost import XGBClassifier
 
-from src.exception import CustomException
-from src.logger import logging
-from src.utils import save_object, evaluate_model
+from Customer_churn.exception import CustomException
+from Customer_churn.logging import logging
+from Customer_churn.utils.common import save_object, evaluate_model
 
 @dataclass
 class ModelTrainerConfig:
@@ -43,13 +42,12 @@ class ModelTrainer:
             )
 
             models = {
-                "Random Forest": RandomForestRegressor(),
-                "Decision Tree": DecisionTreeRegressor(),
-                "Gradient Boosting": GradientBoostingRegressor(),
-                "Linear Regression": LinearRegression(),
-                "XG Boost": XGBRegressor(),
-                "CatBoosting Regressor": CatBoostRegressor(verbose=False),
-                "AdaBoost Regressor": AdaBoostRegressor(),
+                "Random Forest": RandomForestClassifier(),
+                "Decision Tree": DecisionTreeClassifier(),
+                "Gradient Boosting": GradientBoostingClassifier(),
+                "XG Boost": XGBClassifier(),
+                "CatBoosting Classifier": CatBoostClassifier(verbose=False),
+                "AdaBoost Classifier": AdaBoostClassifier(),
             }
             ## Hyperparameter Tuning
             params={
@@ -72,17 +70,16 @@ class ModelTrainer:
                     # 'max_features':['auto','sqrt','log2'],
                     'n_estimators': [8,16,32,64,128,256]
                 },
-                "Linear Regression":{},
                 "XG Boost":{
                     'learning_rate':[.1,.01,.05,.001],
                     'n_estimators': [8,16,32,64,128,256]
                 },
-                "CatBoosting Regressor":{
+                "CatBoosting Classifier":{
                     'depth': [6,8,10],
                     'learning_rate': [0.01, 0.05, 0.1],
                     'iterations': [30, 50, 100]
                 },
-                "AdaBoost Regressor":{
+                "AdaBoost Classifier":{
                     'learning_rate':[.1,.01,0.5,.001],
                     # 'loss':['linear','square','exponential'],
                     'n_estimators': [8,16,32,64,128,256]

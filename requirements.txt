@@ -10,4 +10,6 @@ python-box==6.0.2
 joblib
 scikit-learn
 catboost
+dill
+xgboost
 # -e .

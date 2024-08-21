@@ -3,7 +3,7 @@ from Customer_churn.components.data_ingestion import DataIngestion
 from Customer_churn.logging import logger
 
 
-class DataIngestionTrainingPipeline:
+class DataIngestionPipeline:
     def __init__(self):
         pass
 
