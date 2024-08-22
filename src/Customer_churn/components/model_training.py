@@ -49,37 +49,64 @@ class ModelTrainer:
                 "AdaBoost Classifier": AdaBoostClassifier(),
             }
             ## Hyperparameter Tuning
+            # params = {
+            #     "Decision Tree": {
+            #         'criterion': ['gini', 'entropy', 'log_loss'],  # Suitable for classification
+            #         'splitter': ['best', 'random'],
+            #         'max_depth': [None, 10, 20, 30, 40, 50],
+            #         'min_samples_split': [2, 5, 10],
+            #         'min_samples_leaf': [1, 2, 4]
+            #     },
+            #     "Random Forest": {
+            #         'n_estimators': [50, 100, 200, 500],
+            #         'criterion': ['gini', 'entropy', 'log_loss'],
+            #         'max_depth': [None, 10, 20, 30],
+            #         'min_samples_split': [2, 5, 10],
+            #         'min_samples_leaf': [1, 2, 4],
+            #         'bootstrap': [True, False]
+            #     },
+            #     "Gradient Boosting": {
+            #         'learning_rate': [0.01, 0.05, 0.1],
+            #         'n_estimators': [50, 100, 200, 500],
+            #         'subsample': [0.6, 0.8, 1.0],
+            #         'max_depth': [3, 5, 7],
+            #         'min_samples_split': [2, 5, 10],
+            #         'min_samples_leaf': [1, 2, 4]
+            #     },
+            #     "XG Boost": {
+            #         'learning_rate': [0.01, 0.05, 0.1],
+            #         'n_estimators': [50, 100, 200, 500],
+            #         'max_depth': [3, 5, 7],
+            #         'min_child_weight': [1, 3, 5],
+            #         'subsample': [0.6, 0.8, 1.0],
+            #         'colsample_bytree': [0.6, 0.8, 1.0]
+            #     },
+            #     # "CatBoosting Classifier": {
+            #     #     'depth': [4, 6, 8],
+            #     #     'learning_rate': [0.01, 0.05, 0.1],
+            #     #     'iterations': [100, 200, 500],
+            #     #     'l2_leaf_reg': [3, 5, 7]
+            #     # },
+            #     "AdaBoost Classifier": {
+            #         'n_estimators': [50, 100, 200, 500],
+            #         'learning_rate': [0.01, 0.1, 1.0],
+            #         'algorithm': ['SAMME', 'SAMME.R']
+            #     }
+            # }
+
             params = {
                 "Decision Tree": {
-                    'criterion': ['gini', 'entropy', 'log_loss'],  # Suitable for classification
-                    'splitter': ['best', 'random'],
-                    'max_depth': [None, 10, 20, 30, 40, 50],
-                    'min_samples_split': [2, 5, 10],
-                    'min_samples_leaf': [1, 2, 4]
+                    'criterion': ['gini']
                 },
                 "Random Forest": {
-                    'n_estimators': [50, 100, 200, 500],
-                    'criterion': ['gini', 'entropy', 'log_loss'],
-                    'max_depth': [None, 10, 20, 30],
-                    'min_samples_split': [2, 5, 10],
-                    'min_samples_leaf': [1, 2, 4],
-                    'bootstrap': [True, False]
+                    'n_estimators': [50],
+                    'criterion': ['gini']
                 },
                 "Gradient Boosting": {
-                    'learning_rate': [0.01, 0.05, 0.1],
-                    'n_estimators': [50, 100, 200, 500],
-                    'subsample': [0.6, 0.8, 1.0],
-                    'max_depth': [3, 5, 7],
-                    'min_samples_split': [2, 5, 10],
-                    'min_samples_leaf': [1, 2, 4]
+                    'learning_rate': [0.01]
                 },
                 "XG Boost": {
-                    'learning_rate': [0.01, 0.05, 0.1],
-                    'n_estimators': [50, 100, 200, 500],
-                    'max_depth': [3, 5, 7],
-                    'min_child_weight': [1, 3, 5],
-                    'subsample': [0.6, 0.8, 1.0],
-                    'colsample_bytree': [0.6, 0.8, 1.0]
+                    'learning_rate': [0.01]
                 },
                 # "CatBoosting Classifier": {
                 #     'depth': [4, 6, 8],
@@ -88,9 +115,7 @@ class ModelTrainer:
                 #     'l2_leaf_reg': [3, 5, 7]
                 # },
                 "AdaBoost Classifier": {
-                    'n_estimators': [50, 100, 200, 500],
-                    'learning_rate': [0.01, 0.1, 1.0],
-                    'algorithm': ['SAMME', 'SAMME.R']
+                    'n_estimators': [50]
                 }
             }
             model_report: dict = evaluate_model(X_train,y_train, X_test, y_test, models,param=params)
@@ -109,6 +134,7 @@ class ModelTrainer:
                 raise CustomException("No best model found")
 
             logging.info(f"Best model found on both training and testing dataset")
+            logging.info(f"The Best model is {best_model_name} ")
 
             save_object(
                 file_path=self.model_trainer_config.model_path,
