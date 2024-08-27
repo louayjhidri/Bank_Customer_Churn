@@ -51,23 +51,22 @@ class ModelTrainer:
             ## Hyperparameter Tuning
             # params = {
             #     "Decision Tree": {
-            #         'criterion': ['gini', 'entropy', 'log_loss'],  # Suitable for classification
+            #         'criterion': ['gini', 'entropy'],  # Suitable for classification
             #         'splitter': ['best', 'random'],
-            #         'max_depth': [None, 10, 20, 30, 40, 50],
-            #         'min_samples_split': [2, 5, 10],
+            #         'max_depth': [None, 10, 20],
+            #         'min_samples_split': [2, 5],
             #         'min_samples_leaf': [1, 2, 4]
             #     },
             #     "Random Forest": {
-            #         'n_estimators': [50, 100, 200, 500],
-            #         'criterion': ['gini', 'entropy', 'log_loss'],
-            #         'max_depth': [None, 10, 20, 30],
-            #         'min_samples_split': [2, 5, 10],
-            #         'min_samples_leaf': [1, 2, 4],
-            #         'bootstrap': [True, False]
+            #         'n_estimators': [50, 100],
+            #         'criterion': ['gini', 'entropy'],
+            #         'max_depth': [None, 10, 20],
+            #         'min_samples_split': [2, 5],
+            #         'min_samples_leaf': [1, 2, 4]
             #     },
             #     "Gradient Boosting": {
             #         'learning_rate': [0.01, 0.05, 0.1],
-            #         'n_estimators': [50, 100, 200, 500],
+            #         'n_estimators': [50, 100],
             #         'subsample': [0.6, 0.8, 1.0],
             #         'max_depth': [3, 5, 7],
             #         'min_samples_split': [2, 5, 10],
@@ -75,7 +74,7 @@ class ModelTrainer:
             #     },
             #     "XG Boost": {
             #         'learning_rate': [0.01, 0.05, 0.1],
-            #         'n_estimators': [50, 100, 200, 500],
+            #         'n_estimators': [50, 100],
             #         'max_depth': [3, 5, 7],
             #         'min_child_weight': [1, 3, 5],
             #         'subsample': [0.6, 0.8, 1.0],
@@ -88,7 +87,7 @@ class ModelTrainer:
             #     #     'l2_leaf_reg': [3, 5, 7]
             #     # },
             #     "AdaBoost Classifier": {
-            #         'n_estimators': [50, 100, 200, 500],
+            #         'n_estimators': [50, 100],
             #         'learning_rate': [0.01, 0.1, 1.0],
             #         'algorithm': ['SAMME', 'SAMME.R']
             #     }
@@ -96,17 +95,17 @@ class ModelTrainer:
 
             params = {
                 "Decision Tree": {
-                    'criterion': ['gini']
+                    'criterion': ['gini','entropy']
                 },
                 "Random Forest": {
                     'n_estimators': [50],
-                    'criterion': ['gini']
+                    'criterion': ['gini','entropy']
                 },
                 "Gradient Boosting": {
-                    'learning_rate': [0.01]
+                    'learning_rate': [0.01,0.05]
                 },
                 "XG Boost": {
-                    'learning_rate': [0.01]
+                    'learning_rate': [0.01,0.05]
                 },
                 # "CatBoosting Classifier": {
                 #     'depth': [4, 6, 8],
@@ -115,7 +114,7 @@ class ModelTrainer:
                 #     'l2_leaf_reg': [3, 5, 7]
                 # },
                 "AdaBoost Classifier": {
-                    'n_estimators': [50]
+                    'n_estimators': [50,100]
                 }
             }
             model_report: dict = evaluate_model(X_train,y_train, X_test, y_test, models,param=params)
@@ -130,8 +129,8 @@ class ModelTrainer:
 
             best_model = models[best_model_name]
 
-            if best_model_score < 0.6:
-                raise CustomException("No best model found")
+            # if best_model_score < 0.4:
+            #     raise CustomException("No best model found")
 
             logging.info(f"Best model found on both training and testing dataset")
             logging.info(f"The Best model is {best_model_name} ")

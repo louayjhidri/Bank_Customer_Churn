@@ -3,7 +3,7 @@ from Customer_churn.utils.common import read_yaml ,create_directories
 from Customer_churn.entity.config_entity import DataIngestionConfig
 from Customer_churn.entity.config_entity import DataTransformationConfig
 from Customer_churn.entity.config_entity import ModelTrainerConfig
-from Customer_churn.entity.config_entity import ModelEvaluationConfig
+from Customer_churn.entity.config_entity import ModelPredictionConfig
 
 class ConfigurationManager:
     def __init__(
@@ -61,19 +61,15 @@ class ConfigurationManager:
 
         return model_trainer_config
     
-    def get_model_evaluation_config(self) -> ModelEvaluationConfig:
-        config = self.config.model_evaluation
+    def get_model_prediction_config(self) -> ModelPredictionConfig:
+        config = self.config.model_prediction
 
-        create_directories([config.root_dir])
-
-        model_evaluation_config = ModelEvaluationConfig(
-            root_dir=config.root_dir,
-            data_path=config.data_path,
-            model_path = config.model_path,
-            tokenizer_path = config.tokenizer_path,
-            metric_file_name = config.metric_file_name
+        model_prediction_config = ModelPredictionConfig(
+            
+            preprocessor_obj_file_path= config.preprocessor_obj_file_path,
+            model_path= config.model_path
            
         )
 
-        return model_evaluation_config
+        return model_prediction_config
 
