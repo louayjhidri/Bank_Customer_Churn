@@ -15,6 +15,7 @@ class ModelPrediction:
             preprocessor_path = self.config.preprocessor_obj_file_path
             model = load_object(file_path=model_path)
             preprocessor = load_object(file_path=preprocessor_path)
+            print("type of features",type(features))
             data_scaled = preprocessor.transform(features)
             pred = model.predict(data_scaled)
             return pred
@@ -25,18 +26,18 @@ class ModelPrediction:
 
 class CustomData:
     def __init__(self,
-        CreditScore: str,
+        CreditScore: int,
         Gender: str,
-        Age,
-        Tenure: str,
-        Balance: str,
+        Age: int,
+        Tenure: int,
+        Balance: float,
         NumOfProducts: int,
         HasCrCard: int,
         IsActiveMember: int,
-        EstimatedSalary: str,
-        SatisfactionScore: str,
+        EstimatedSalary: float,
+        SatisfactionScore: int,
         CardType: str,
-        PointEarned: str):
+        PointEarned: int):
 
         self.CreditScore = CreditScore
         self.Gender = Gender
@@ -45,7 +46,7 @@ class CustomData:
         self.Balance = Balance
         self.NumOfProducts = NumOfProducts
         self.HasCrCard = HasCrCard
-        self.IsActiveMember = IsActiveMember,
+        self.IsActiveMember = IsActiveMember
         self.EstimatedSalary = EstimatedSalary
         self.SatisfactionScore = SatisfactionScore
         self.CardType = CardType
@@ -55,13 +56,18 @@ class CustomData:
 
         try:
             custom_data_input_dict = {
-                "gender": [self.gender],
-                "race_ethnicity": [self.race_ethnicity],
-                "parental_level_of_education": [self.parental_level_of_education],
-                "lunch": [self.lunch],
-                "test_preparation_course": [self.test_preparation_course],
-                "reading_score": [self.reading_score],
-                "writing_score": [self.writing_score]
+                "CreditScore": [self.CreditScore],
+                "Gender": [self.Gender],
+                "Age": [self.Age],
+                "Tenure": [self.Tenure],
+                "Balance": [self.Balance],
+                "NumOfProducts": [self.NumOfProducts],
+                "HasCrCard": [self.HasCrCard],
+                "IsActiveMember": [self.IsActiveMember],
+                "EstimatedSalary": [self.EstimatedSalary],
+                "SatisfactionScore": [self.SatisfactionScore],
+                "CardType": [self.CardType],
+                "PointEarned": [self.PointEarned]
             }
             return pd.DataFrame(custom_data_input_dict)
 

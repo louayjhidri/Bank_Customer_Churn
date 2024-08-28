@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Customer Churn Prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="text-center my-4">Customer Churn Prediction Indicator</h1>
+      
+      <div class="card mx-auto" style="max-width: 600px;">
+        <div class="card-body">
+            <form action="{{ url_for('predict_datapoint')}}" method="post">
+                    <legend class="mb-4">Customer Churn Prediction</legend>
+                    
+                    <div class="mb-3">
+                    <label class="form-label">Credit Score</label>
+                    <input class="form-control" type="number" name="CreditScore" placeholder="Enter your Credit score" min='349' max='851' />
+                    </div>
+
+                    <div class="mb-3">
+                    <label class="form-label">Gender</label>
+                    <select class="form-control" name="Gender" required>
+                        <option selected disabled value="">Select your Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                    </div>
+
+                    <div class="mb-3">
+                    <label class="form-label">Age</label>
+                    <input class="form-control" type="number" name="Age" placeholder="Enter your age" min='18' max='100' />
+                    </div>
+
+                    <div class="mb-3">
+                    <label class="form-label">Tenure</label>
+                    <input class="form-control" type="number" name="Tenure" placeholder="Enter your Tenure" />
+                    </div>
+
+                    <div class="mb-3">
+                    <label class="form-label">Balance</label>
+                    <input class="form-control" type="number" name="Balance" placeholder="Enter your Balance" />
+                    </div>
+
+                    <div class="mb-3">
+                    <label class="form-label">Num Of Products</label>
+                    <input class="form-control" type="number" name="NumOfProducts" placeholder="Enter your Num Of Products" />
+                    </div>
+
+                    <div class="mb-3">
+                    <label class="form-label">HasCrCard</label>
+                    <select class="form-control" name="HasCrCard" required>
+                        <option selected disabled value=""></option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                    </div>
+
+                    <div class="mb-3">
+                    <label class="form-label">IsActiveMember</label>
+                    <select class="form-control" name="IsActiveMember" required>
+                        <option selected disabled value=""></option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                    </div>
+
+                    <div class="mb-3">
+                    <label class="form-label">Estimated Salary</label>
+                    <input class="form-control" type="number" name="EstimatedSalary" placeholder="Enter your Estimated Salary" />
+                    </div>
+
+                    <div class="mb-3">
+                    <label class="form-label">Satisfaction Score</label>
+                    <input class="form-control" type="number" name="SatisfactionScore" placeholder="Enter your Satisfaction Score" />
+                    </div>
+
+                    <div class="mb-3">
+                    <label class="form-label">Card Type</label>
+                    <select class="form-control" name="CardType" required>
+                        <option selected disabled value=""></option>
+                        <option value="DIAMOND">DIAMOND</option>
+                        <option value="GOLD">GOLD</option>
+                        <option value="SILVER">SILVER</option>
+                        <option value="PLATINUM">PLATINUM</option>
+                    </select>
+                    </div>
+
+                    <div class="mb-3">
+                    <label class="form-label">Point Earned</label>
+                    <input class="form-control" type="number" name="PointEarned" placeholder="Enter your Point Earned" />
+                    </div>
+
+                    <div class="mb-3 text-center">
+                    <input class="btn btn-primary" type="submit" value="Predict your Customer Churn Score" />
+                    </div>
+            </form>
+
+          <h2 class="text-center mt-4">The prediction is: {{ results }}</h2>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  </body>
+</html>
