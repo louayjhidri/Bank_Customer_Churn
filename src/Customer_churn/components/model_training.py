@@ -182,9 +182,9 @@ from Customer_churn.entity.config_entity import ModelTrainerConfig
 
 # MLflow and DagsHub integration
 import dagshub
-import mlflow
+# import mlflow
 
-dagshub.init(repo_owner='ArafetMarnissi', repo_name='Customer_churn', mlflow=True)
+# dagshub.init(repo_owner='ArafetMarnissi', repo_name='Customer_churn', mlflow=True)
 
 class ModelTrainer:
     def __init__(self, config: ModelTrainerConfig):
@@ -192,15 +192,15 @@ class ModelTrainer:
 
     def initiate_model_trainer(self):
         try:
-            train_arr=np.load(self.model_trainer_config.train_data_path)
-            test_arr=np.load(self.model_trainer_config.test_data_path)
+            train_arr = np.load(self.model_trainer_config.train_data_path)
+            test_arr = np.load(self.model_trainer_config.test_data_path)
             logging.info("Split training and test input data")
 
             X_train, y_train, X_test, y_test = (
-                train_arr[:,:-1],
-                train_arr[:,-1],
-                test_arr[:,:-1],
-                test_arr[:,-1]
+                train_arr[:, :-1],
+                train_arr[:, -1],
+                test_arr[:, :-1],
+                test_arr[:, -1],
             )
 
             models = {
@@ -213,66 +213,63 @@ class ModelTrainer:
 
             params = {
                 "Decision Tree": {
-                    'criterion': ['gini','entropy']
+                    'criterion': ['gini', 'entropy']
                 },
                 "Random Forest": {
                     'n_estimators': [50],
-                    'criterion': ['gini','entropy']
+                    'criterion': ['gini', 'entropy']
                 },
                 "Gradient Boosting": {
-                    'learning_rate': [0.01,0.05]
+                    'learning_rate': [0.01, 0.05]
                 },
                 "XG Boost": {
-                    'learning_rate': [0.01,0.05]
+                    'learning_rate': [0.01, 0.05]
                 },
                 "AdaBoost Classifier": {
-                    'n_estimators': [50,100]
+                    'n_estimators': [50, 100]
                 }
             }
 
-            with mlflow.start_run():
-                # mlflow.autolog()
-                model_report: dict = evaluate_model(X_train, y_train, X_test, y_test, models, param=params)
+            # Uncomment this block if MLflow is configured
+            # with mlflow.start_run():
+            #     mlflow.autolog()
+            model_report: dict = evaluate_model(X_train, y_train, X_test, y_test, models, param=params)
 
-                # Log model parameters
-                for model_name, param_set in params.items():
-                    mlflow.log_param(f'{model_name}_params', param_set)
+            # Uncomment the MLflow logging section if needed
+            # for model_name, param_set in params.items():
+            #     mlflow.log_param(f'{model_name}_params', param_set)
 
-                # To get best model score from dict
-                best_model_score = max(sorted(model_report.values()))
+            best_model_score = max(sorted(model_report.values()))
+            best_model_name = list(model_report.keys())[
+                list(model_report.values()).index(best_model_score)
+            ]
+            best_model = models[best_model_name]
 
-                # To get best model name from dict
-                best_model_name = list(model_report.keys())[
-                    list(model_report.values()).index(best_model_score)
-                ]
+            logging.info(f"Best model found on both training and testing dataset")
+            logging.info(f"The Best model is {best_model_name}")
 
-                best_model = models[best_model_name]
+            # Save the best model object
+            save_object(
+                file_path=self.model_trainer_config.model_path,
+                obj=best_model
+            )
 
-                logging.info(f"Best model found on both training and testing dataset")
-                logging.info(f"The Best model is {best_model_name}")
+            # Make predictions
+            predicted = best_model.predict(X_test)
 
-                # Save the best model object
-                save_object(
-                    file_path=self.model_trainer_config.model_path,
-                    obj=best_model
-                )
+            # Calculate accuracy
+            accuracy = accuracy_score(y_test, predicted)
+            # mlflow.log_metric('accuracy', accuracy)
 
-                # Make predictions
-                predicted = best_model.predict(X_test)
+            # Optionally, generate a classification report for more detailed metrics
+            report = classification_report(y_test, predicted, output_dict=True)
+            # mlflow.log_metric('precision', report['weighted avg']['precision'])
+            # mlflow.log_metric('recall', report['weighted avg']['recall'])
+            # mlflow.log_metric('f1-score', report['weighted avg']['f1-score'])
 
-                # Calculate accuracy
-                accuracy = accuracy_score(y_test, predicted)
-                mlflow.log_metric('accuracy', accuracy)
+            logging.info(f"Classification Report:\n{classification_report(y_test, predicted)}")
 
-                # Optionally, generate a classification report for more detailed metrics
-                report = classification_report(y_test, predicted, output_dict=True)
-                mlflow.log_metric('precision', report['weighted avg']['precision'])
-                mlflow.log_metric('recall', report['weighted avg']['recall'])
-                mlflow.log_metric('f1-score', report['weighted avg']['f1-score'])
-
-                logging.info(f"Classification Report:\n{classification_report(y_test, predicted)}")
-
-                return accuracy
+            return accuracy
 
         except Exception as e:
             raise CustomException(e, sys)
