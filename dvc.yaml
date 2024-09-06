@@ -1,0 +1,41 @@
+stages:
+  data_ingestion:
+    cmd: python src/Customer_churn/pipeline/stage_01_data_ingestion.py
+    deps:
+      - src/Customer_churn/pipeline/stage_01_data_ingestion.py
+      - config/config.yaml
+    outs:
+      - artifacts/data_ingestion/churn
+
+
+  data_preprocessing:
+    cmd: python src/Customer_churn/pipeline/stage_02_data_preprocessing.py
+    deps:
+      - src/Customer_churn/pipeline/stage_02_data_preprocessing.py
+      - config/config.yaml
+    outs:
+      - artifacts/data_transformation
+
+
+
+  training:
+    cmd: python src/Customer_churn/pipeline/stage_03_model_training.py
+    deps:
+      - src/Customer_churn/pipeline/stage_03_model_training.py
+      - config/config.yaml
+      - artifacts/data_transformation/train.npy
+      - artifacts/data_transformation/test.npy
+    outs:
+      - artifacts/model_trainer/best_model.pkl
+
+
+  
+
+  # Prediction:
+  #   cmd: python src/Customer_churn/pipeline/stage_04_model_prediction.py
+  #   deps:
+  #     - src/Customer_churn/pipeline/stage_04_model_prediction.py
+  #     - config/config.yaml
+  #     - artifacts/data_transformation/preprocessor.pkl
+  #     - artifacts/model_trainer/best_model.pkl
+

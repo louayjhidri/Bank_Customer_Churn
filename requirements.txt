@@ -5,6 +5,7 @@ Flask
 Flask-Cors
 numpy
 dvc
+gdown
 ensure==1.0.2
 python-box==6.0.2
 joblib
@@ -12,4 +13,6 @@ scikit-learn
 catboost
 dill
 xgboost
+dagshub
+mlflow
 # -e .
