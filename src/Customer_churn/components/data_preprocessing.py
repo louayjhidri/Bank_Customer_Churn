@@ -176,7 +176,8 @@ class DataTransformation:
                 file_path=self.config.preprocessor_obj_file_path,
                 obj=preprocessing_obj
             )
-
+            np.save(self.config.train_data_path, train_arr)
+            np.save(self.config.test_data_path, test_arr)
             return train_arr, test_arr
 
         except Exception as e:

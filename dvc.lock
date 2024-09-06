@@ -1,0 +1,60 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python src/Customer_churn/pipeline/stage_01_data_ingestion.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: dfacc895ca74821d19f036b4d3fa231e
+      size: 1060
+    - path: src/Customer_churn/pipeline/stage_01_data_ingestion.py
+      hash: md5
+      md5: a738e77b88fc8ed14d347a17c9dab563
+      size: 909
+    outs:
+    - path: artifacts/data_ingestion/churn
+      hash: md5
+      md5: 213e4fd91122d151b0ae14194b7fd7bb.dir
+      size: 837412
+      nfiles: 1
+  data_preprocessing:
+    cmd: python src/Customer_churn/pipeline/stage_02_data_preprocessing.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: dfacc895ca74821d19f036b4d3fa231e
+      size: 1060
+    - path: src/Customer_churn/pipeline/stage_02_data_preprocessing.py
+      hash: md5
+      md5: 283f548e74304ab01e7ab009c76fe6c9
+      size: 971
+    outs:
+    - path: artifacts/data_transformation
+      hash: md5
+      md5: f452f27e8b5393f8d1e49dd76dd4a23c.dir
+      size: 2042226
+      nfiles: 3
+  training:
+    cmd: python src/Customer_churn/pipeline/stage_03_model_training.py
+    deps:
+    - path: artifacts/data_transformation/test.npy
+      hash: md5
+      md5: 90173d4c358a6e15d13260aa1d250064
+      size: 407808
+    - path: artifacts/data_transformation/train.npy
+      hash: md5
+      md5: 2612f777f90acc771a9777b40a6bac75
+      size: 1630720
+    - path: config/config.yaml
+      hash: md5
+      md5: dfacc895ca74821d19f036b4d3fa231e
+      size: 1060
+    - path: src/Customer_churn/pipeline/stage_03_model_training.py
+      hash: md5
+      md5: 839affc514ed0b44a43812c6a174d333
+      size: 960
+    outs:
+    - path: artifacts/model_trainer/best_model.pkl
+      hash: md5
+      md5: 1d9099e55eddb8c524de9c2c32c5bc41
+      size: 13311433
