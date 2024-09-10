@@ -217,7 +217,7 @@ class ModelTrainer:
                 },
                 "Random Forest": {
                     'n_estimators': [50],
-                    'criterion': ['gini', 'entropy']
+                    'criterion': ['gini','entropy']
                 },
                 "Gradient Boosting": {
                     'learning_rate': [0.01, 0.05]
