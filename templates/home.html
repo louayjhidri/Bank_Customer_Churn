@@ -11,6 +11,9 @@
       <h1 class="text-center my-4">Customer Churn Prediction Indicator</h1>
       
       <div class="card mx-auto" style="max-width: 600px;">
+        <button class="btn btn-primary" onclick="window.location.href='dashboard_page'">Dashboard</button>
+
+
         <div class="card-body">
             <form action="{{ url_for('predict_datapoint')}}" method="post">
                     <legend class="mb-4">Customer Churn Prediction</legend>

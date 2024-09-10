@@ -216,7 +216,7 @@ class ModelTrainer:
                     'criterion': ['gini','entropy']
                 },
                 "Random Forest": {
-                    'n_estimators': [50],
+                    'n_estimators': [50,60],
                     'criterion': ['gini','entropy']
                 },
                 "Gradient Boosting": {
