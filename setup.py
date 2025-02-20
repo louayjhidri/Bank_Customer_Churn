@@ -3,7 +3,6 @@ import setuptools
 with open("README.md", "r", encoding="utf-8") as f:
     long_description = f.read()
 
-
 __version__ = "0.0.1"
 
 REPO_NAME = "Customer_churn"
@@ -11,15 +10,14 @@ AUTHOR_USER_NAME = "ArafetMarnissi"
 SRC_REPO = "Customer_churn"
 AUTHOR_EMAIL = "marnissiarafet@gmail.com"
 
-
 setuptools.setup(
     name=SRC_REPO,
     version=__version__,
     author=AUTHOR_USER_NAME,
     author_email=AUTHOR_EMAIL,
-    description=" ",
+    description="A brief description of your project",
     long_description=long_description,
-    long_description_content="text/markdown",
+    long_description_content_type="text/markdown",
     url=f"https://github.com/{AUTHOR_USER_NAME}/{REPO_NAME}",
     project_urls={
         "Bug Tracker": f"https://github.com/{AUTHOR_USER_NAME}/{REPO_NAME}/issues",
